@@ -1,8 +1,4 @@
-db
-use TaskDB
-
 1.Find all the information about each products
-
 
 db.product.find()
 {
