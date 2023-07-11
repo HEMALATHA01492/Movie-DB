@@ -1,3 +1,6 @@
+
+collection Name:product
+
 1.Find all the information about each products
 
 db.product.find()
