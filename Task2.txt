@@ -1,0 +1,1025 @@
+Design database for Zen class programme
+
+
+  use ZEN
+  show collections
+    Attendance
+    Codekata
+    CompanyDrives
+    Mentors
+    Tasks
+    Topics
+    Users
+
+
+
+
+
+1.Find all the topics and tasks which are thought in the month of October
+
+db.Tasks.find(); 
+{
+  _id: ObjectId("64ad268f000a5d73f08ba801"),
+  date: 2020-09-20T18:30:00.000Z,
+  taskid: 1,
+  taskname: 'Task1'
+}
+{
+  _id: ObjectId("64ad268f000a5d73f08ba803"),
+  date: 2020-10-04T00:00:00.000Z,
+  taskid: 2,
+  taskname: 'Task2'
+}
+{
+  _id: ObjectId("64ad268f000a5d73f08ba807"),
+  date: 2020-10-15T00:00:00.000Z,
+  taskid: 3,
+  taskname: 'Task3'
+}
+{
+  _id: ObjectId("64ad268f000a5d73f08ba808"),
+  date: 2020-10-20T00:00:00.000Z,
+  taskid: 4,
+  taskname: 'Task4'
+}
+{
+  _id: ObjectId("64ad268f000a5d73f08ba809"),
+  date: 2020-10-25T00:00:00.000Z,
+  taskid: 5,
+  taskname: 'Task5'
+}
+{
+  _id: ObjectId("64b4e7873d43d1cf5ef83b06"),
+  date: 2020-10-30T00:00:00.000Z,
+  taskid: 6,
+  taskname: 'Task6'
+}
+{
+  _id: ObjectId("64b4e7873d43d1cf5ef83b06"),
+  date: 2020-10-30T00:00:00.000Z,
+  taskid: 6,
+  taskname: 'Task6'
+}
+
+db.Topics.find();
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7d8"),
+  topicdate: 2020-09-20T18:30:00.000Z,
+  topicid: 1,
+  topicname: 'JAVA SCRIPT',
+  taskid: ObjectId("64ad268f000a5d73f08ba801")
+}
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7d9"),
+  topicdate: 2020-10-04T18:30:00.000Z,
+  topicid: 2,
+  topicname: 'HTML',
+  taskid: ObjectId("64ad268f000a5d73f08ba803")
+}
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7da"),
+  topicdate: 2020-10-15T18:30:00.000Z,
+  topicid: 3,
+  topicname: 'CSS',
+  taskid: ObjectId("64ad268f000a5d73f08ba807")
+}
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7db"),
+  topicdate: 2020-10-20T18:30:00.000Z,
+  topicid: 4,
+  topicname: 'BOOTSTRAP',
+  taskid: ObjectId("64ad268f000a5d73f08ba808")
+}
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7dc"),
+  topicdate: 2020-10-25T18:30:00.000Z,
+  topicid: 5,
+  topicname: 'REACT',
+  taskid: ObjectId("64ad268f000a5d73f08ba809")
+}
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7dd"),
+  topicdate: 2020-10-30T18:30:00.000Z,
+  topicid: 6,
+  topicname: 'NODEJS',
+  taskid: ObjectId("64b4e7873d43d1cf5ef83b06")
+}
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7de"),
+  topicdate: 2020-11-05T18:30:00.000Z,
+  topicid: 7,
+  topicname: 'MYSQL',
+  taskid: ObjectId("64b4e7d93d43d1cf5ef83b0a")
+}
+
+ANSWER:
+
+db.Topics.aggregate([{$match:{topicdate:{"$gte":ISODate("2020-10-01T00:00:00.000Z"),"$lte":ISODate("2020-10-31T00:00:00.000+00:00")}}},{$lookup: {from:"Tasks", localField:"taskid",foreignField:"_id",as:"task"}}])
+
+
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7d9"),
+  topicdate: 2020-10-04T18:30:00.000Z,
+  topicid: 2,
+  topicname: 'HTML',
+  taskid: ObjectId("64ad268f000a5d73f08ba803"),
+  task: [
+    {
+      _id: ObjectId("64ad268f000a5d73f08ba803"),
+      date: 2020-10-04T00:00:00.000Z,
+      taskid: 2,
+      taskname: 'Task2'
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7da"),
+  topicdate: 2020-10-15T18:30:00.000Z,
+  topicid: 3,
+  topicname: 'CSS',
+  taskid: ObjectId("64ad268f000a5d73f08ba807"),
+  task: [
+    {
+      _id: ObjectId("64ad268f000a5d73f08ba807"),
+      date: 2020-10-15T00:00:00.000Z,
+      taskid: 3,
+      taskname: 'Task3'
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7db"),
+  topicdate: 2020-10-20T18:30:00.000Z,
+  topicid: 4,
+  topicname: 'BOOTSTRAP',
+  taskid: ObjectId("64ad268f000a5d73f08ba808"),
+  task: [
+    {
+      _id: ObjectId("64ad268f000a5d73f08ba808"),
+      date: 2020-10-20T00:00:00.000Z,
+      taskid: 4,
+      taskname: 'Task4'
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7dc"),
+  topicdate: 2020-10-25T18:30:00.000Z,
+  topicid: 5,
+  topicname: 'REACT',
+  taskid: ObjectId("64ad268f000a5d73f08ba809"),
+  task: [
+    {
+      _id: ObjectId("64ad268f000a5d73f08ba809"),
+      date: 2020-10-25T00:00:00.000Z,
+      taskid: 5,
+      taskname: 'Task5'
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad174e000a5d73f08ba7dd"),
+  topicdate: 2020-10-30T18:30:00.000Z,
+  topicid: 6,
+  topicname: 'NODEJS',
+  taskid: ObjectId("64b4e7873d43d1cf5ef83b06"),
+  task: [
+    {
+      _id: ObjectId("64b4e7873d43d1cf5ef83b06"),
+      date: 2020-10-30T00:00:00.000Z,
+      taskid: 6,
+      taskname: 'Task6'
+    }
+  ]
+}
+
+2.Find all the company drives which appeared between 15 oct-2020 and 31-oct-2020
+
+db.CompanyDrives.find()
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f5"),
+  user_id: 5,
+  companyid: 1,
+  companyname: 'Google',
+  drivedate: 2020-10-05T18:30:00.000Z
+}
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f6"),
+  user_id: 4,
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z
+}
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f7"),
+  user_id: 5,
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z
+}
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f8"),
+  user_id: 5,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f9"),
+  companyid: 5,
+  companyname: 'WALMART',
+  drivedate: 2020-10-29T18:30:00.000Z,
+  user_id: 1
+}
+{
+  _id: ObjectId("64b8d6194bc17fdc2b31ea46"),
+  user_id: 1,
+  companyid: 1,
+  companyname: 'Google',
+  drivedate: 2020-10-05T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6424bc17fdc2b31ea47"),
+  user_id: 3,
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d64e4bc17fdc2b31ea48"),
+  user_id: 7,
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6604bc17fdc2b31ea49"),
+  user_id: 8,
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d66b4bc17fdc2b31ea4a"),
+  user_id: 9,
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6794bc17fdc2b31ea4b"),
+  user_id: 3,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6864bc17fdc2b31ea4c"),
+  user_id: 10,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6a44bc17fdc2b31ea4d"),
+  user_id: 6,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+
+ANSWER:
+db.CompanyDrives.find({drivedate:{"$gte":ISODate("2020-10-15T00:00:00.000Z"),"$lte":ISODate("2020-10-31T00:00:00.000+00:00")}});
+
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f6"),
+  user_id: 4,
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z
+}
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f7"),
+  user_id: 5,
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z
+}
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f8"),
+  user_id: 5,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f9"),
+  companyid: 5,
+  companyname: 'WALMART',
+  drivedate: 2020-10-29T18:30:00.000Z,
+  user_id: 1
+}
+{
+  _id: ObjectId("64b8d6424bc17fdc2b31ea47"),
+  user_id: 3,
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d64e4bc17fdc2b31ea48"),
+  user_id: 7,
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6604bc17fdc2b31ea49"),
+  user_id: 8,
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d66b4bc17fdc2b31ea4a"),
+  user_id: 9,
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6794bc17fdc2b31ea4b"),
+  user_id: 3,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6864bc17fdc2b31ea4c"),
+  user_id: 10,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6a44bc17fdc2b31ea4d"),
+  user_id: 6,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+
+
+3.Find all the company drives and students who are appeared for the placement.
+
+db.CompanyDrives.find()
+
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f5"),
+  user_id: 5,
+  companyid: 1,
+  companyname: 'Google',
+  drivedate: 2020-10-05T18:30:00.000Z
+}
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f6"),
+  user_id: 4,
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z
+}
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f7"),
+  user_id: 5,
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z
+}
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f8"),
+  user_id: 5,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+{
+  _id: ObjectId("64ad2140000a5d73f08ba7f9"),
+  companyid: 5,
+  companyname: 'WALMART',
+  drivedate: 2020-10-29T18:30:00.000Z,
+  user_id: 1
+}
+{
+  _id: ObjectId("64b8d6194bc17fdc2b31ea46"),
+  user_id: 1,
+  companyid: 1,
+  companyname: 'Google',
+  drivedate: 2020-10-05T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6424bc17fdc2b31ea47"),
+  user_id: 3,
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d64e4bc17fdc2b31ea48"),
+  user_id: 7,
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6604bc17fdc2b31ea49"),
+  user_id: 8,
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d66b4bc17fdc2b31ea4a"),
+  user_id: 9,
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6794bc17fdc2b31ea4b"),
+  user_id: 3,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6864bc17fdc2b31ea4c"),
+  user_id: 10,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+{
+  _id: ObjectId("64b8d6a44bc17fdc2b31ea4d"),
+  user_id: 6,
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z
+}
+ANSWER:
+
+db.CompanyDrives.aggregate([{$lookup:{from:"Users",localField:"user_id",foreignField:"user_id",as:"userDetails"}},{$project:{"companyname":1,"companyid":1,"drivedate":1,"_id":0,"userDetails.user name":1}}])
+
+{
+  companyid: 1,
+  companyname: 'Google',
+  drivedate: 2020-10-05T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 5'
+    }
+  ]
+}
+{
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 4'
+    }
+  ]
+}
+{
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 5'
+    }
+  ]
+}
+{
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 5'
+    }
+  ]
+}
+{
+  companyid: 5,
+  companyname: 'WALMART',
+  drivedate: 2020-10-29T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 1'
+    }
+  ]
+}
+{
+  companyid: 1,
+  companyname: 'Google',
+  drivedate: 2020-10-05T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 1'
+    }
+  ]
+}
+{
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 3'
+    }
+  ]
+}
+{
+  companyid: 2,
+  companyname: 'AMAZON',
+  drivedate: 2020-10-15T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 7'
+    }
+  ]
+}
+{
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 8'
+    }
+  ]
+}
+{
+  companyid: 3,
+  companyname: 'DELL',
+  drivedate: 2020-10-16T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 9'
+    }
+  ]
+}
+{
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 3'
+    }
+  ]
+}
+{
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 10'
+    }
+  ]
+}
+{
+  companyid: 4,
+  companyname: 'ZOHO',
+  drivedate: 2020-10-19T18:30:00.000Z,
+  userDetails: [
+    {
+      'user name': 'USER 10'
+    }
+  ]
+}
+
+
+
+
+
+4.Find the number of problems solved by the user in codekata
+
+db.Codekata.find()
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7cc"),
+  user_id: 1,
+  No_of_problem_solved: 45,
+  'Total problem': 50
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7cd"),
+  user_id: 2,
+  No_of_problem_solved: 40,
+  'Total problem': 50
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7ce"),
+  user_id: 3,
+  No_of_problem_solved: 50,
+  'Total problem': 50
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7cf"),
+  user_id: 4,
+  No_of_problem_solved: 35,
+  'Total problem': 50
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d0"),
+  user_id: 5,
+  No_of_problem_solved: 25,
+  'Total problem': 50
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d1"),
+  user_id: 6,
+  No_of_problem_solved: 15,
+  'Total problem': 50
+}
+
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d2"),
+  user_id: 7,
+  No_of_problem_solved: 25,
+  'Total problem': 50
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d3"),
+  user_id: 8,
+  No_of_problem_solved: 35,
+  'Total problem': 50
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d4"),
+  user_id: 9,
+  No_of_problem_solved: 38,
+  'Total problem': 50
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d5"),
+  user_id: 10,
+  No_of_problem_solved: 49,
+  'Total problem': 50
+}
+
+ANSWER:
+
+db.Codekata.aggregate([{$lookup:{from:"Users",localField:"user_id",foreignField:"user_id",as:"UserDetails"}}]);
+
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7cc"),
+  user_id: 1,
+  No_of_problem_solved: 45,
+  'Total problem': 50,
+  UserDetails: [
+    {
+      _id: ObjectId("64ad28d6000a5d73f08ba816"),
+      'user name': 'USER 1',
+      user_id: 1,
+      mentor_id: 1
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7cd"),
+  user_id: 2,
+  No_of_problem_solved: 40,
+  'Total problem': 50,
+  UserDetails: [
+    {
+      _id: ObjectId("64ad28d6000a5d73f08ba817"),
+      'user name': 'USER 2',
+      mentor_id: 1,
+      user_id: 2
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7ce"),
+  user_id: 3,
+  No_of_problem_solved: 50,
+  'Total problem': 50,
+  UserDetails: [
+    {
+      _id: ObjectId("64ad28d6000a5d73f08ba818"),
+      'user name': 'USER 3',
+      mentor_id: 1,
+      user_id: 3
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7cf"),
+  user_id: 4,
+  No_of_problem_solved: 35,
+  'Total problem': 50,
+  UserDetails: [
+    {
+      _id: ObjectId("64ad28d6000a5d73f08ba819"),
+      'user name': 'USER 4',
+      mentor_id: 2,
+      user_id: 4
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d0"),
+  user_id: 5,
+  No_of_problem_solved: 25,
+  'Total problem': 50,
+  UserDetails: [
+    {
+      _id: ObjectId("64ad28d6000a5d73f08ba81a"),
+      'user name': 'USER 5',
+      mentor_id: 2,
+      user_id: 5
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d1"),
+  user_id: 6,
+  No_of_problem_solved: 15,
+  'Total problem': 50,
+  UserDetails: [
+    {
+      _id: ObjectId("64ad28d6000a5d73f08ba81b"),
+      'user name': 'USER 6',
+      mentor_id: 3,
+      user_id: 6
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d2"),
+  user_id: 7,
+  No_of_problem_solved: 25,
+  'Total problem': 50,
+  UserDetails: [
+    {
+      _id: ObjectId("64ad28d6000a5d73f08ba81c"),
+      'user name': 'USER 7',
+      mentor_id: 4,
+      user_id: 7
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d3"),
+  user_id: 8,
+  No_of_problem_solved: 35,
+  'Total problem': 50,
+  UserDetails: [
+    {
+      _id: ObjectId("64ad28d6000a5d73f08ba81d"),
+      'user name': 'USER 8',
+      mentor_id: 4,
+      user_id: 8
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d4"),
+  user_id: 9,
+  No_of_problem_solved: 38,
+  'Total problem': 50,
+  UserDetails: [
+    {
+      _id: ObjectId("64ad28d6000a5d73f08ba81e"),
+      'user name': 'USER 9',
+      mentor_id: 5,
+      user_id: 9
+    }
+  ]
+}
+{
+  _id: ObjectId("64ad1227000a5d73f08ba7d5"),
+  user_id: 10,
+  No_of_problem_solved: 49,
+  'Total problem': 50,
+  UserDetails: [
+    {
+      _id: ObjectId("64ad2acd000a5d73f08ba833"),
+      user_id: 10,
+      'user name': 'USER 10',
+      mentor_id: 4
+    }
+  ]
+}
+
+5.Find all the mentors with who has the mentee's count more than 2
+
+db.Users.find();
+
+{
+  _id: ObjectId("64ad28d6000a5d73f08ba816"),
+  'user name': 'USER 1',
+  user_id: 1,
+  mentor_id: 1
+}
+{
+  _id: ObjectId("64ad28d6000a5d73f08ba817"),
+  'user name': 'USER 2',
+  mentor_id: 1,
+  user_id: 2
+}
+{
+  _id: ObjectId("64ad28d6000a5d73f08ba818"),
+  'user name': 'USER 3',
+  mentor_id: 1,
+  user_id: 3
+}
+{
+  _id: ObjectId("64ad28d6000a5d73f08ba819"),
+  'user name': 'USER 4',
+  mentor_id: 2,
+  user_id: 4
+}
+{
+  _id: ObjectId("64ad28d6000a5d73f08ba81a"),
+  'user name': 'USER 5',
+  mentor_id: 2,
+  user_id: 5
+}
+{
+  _id: ObjectId("64ad28d6000a5d73f08ba81b"),
+  'user name': 'USER 6',
+  mentor_id: 3,
+  user_id: 6
+}
+{
+  _id: ObjectId("64ad28d6000a5d73f08ba81c"),
+  'user name': 'USER 7',
+  mentor_id: 4,
+  user_id: 7
+}
+{
+  _id: ObjectId("64ad28d6000a5d73f08ba81d"),
+  'user name': 'USER 8',
+  mentor_id: 4,
+  user_id: 8
+}
+{
+  _id: ObjectId("64ad28d6000a5d73f08ba81e"),
+  'user name': 'USER 9',
+  mentor_id: 5,
+  user_id: 9
+}
+{
+  _id: ObjectId("64ad2acd000a5d73f08ba833"),
+  user_id: 10,
+  'user name': 'USER 10',
+  mentor_id: 4
+}
+
+db.Users.aggregate([{$group:{_id:"$mentor_id",totalmentees:{$sum:1}}}]).pretty()
+{
+  _id: 2,
+  totalmentees: 2
+}
+{
+  _id: 3,
+  totalmentees: 1
+}
+{
+  _id: 4,
+  totalmentees: 3
+}
+{
+  _id: 1,
+  totalmentees: 3
+}
+{
+  _id: 5,
+  totalmentees: 1
+}
+
+ANSWER:
+db.Users.aggregate([{$group:{_id:"$mentor_id",totalmentees:{$sum:1}}},{$match:{"totalmentees":{"$gte":2}}}]).pretty()
+
+{
+  _id: 1,
+  totalmentees: 3
+}
+{
+  _id: 2,
+  totalmentees: 2
+}
+{
+  _id: 2,
+  totalmentees: 2
+}
+
+
+
+6.Find the number of users who are absent and task is not submitted  between 15 oct-2020 and 31-oct-2020
+db.Attendance.find();
+{
+  _id: ObjectId("64b8cc034bc17fdc2b31ea30"),
+  userName: 'user 1',
+  attendence: 'present',
+  Task: 'submitted',
+  date: 2020-09-20T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8cc454bc17fdc2b31ea32"),
+  userName: 'user 2',
+  attendence: 'absent',
+  Task: 'submitted',
+  date: 2020-09-25T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8cc6d4bc17fdc2b31ea34"),
+  userName: 'user 3',
+  attendence: 'absent',
+  Task: 'not submitted',
+  date: 2020-10-04T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8ccae4bc17fdc2b31ea36"),
+  userName: 'user 4',
+  attendence: 'absent',
+  Task: 'not submitted',
+  date: 2020-10-15T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8ccc24bc17fdc2b31ea38"),
+  userName: 'user 5',
+  attendence: 'absent',
+  Task: 'not submitted',
+  date: 2020-10-25T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8ccd84bc17fdc2b31ea3a"),
+  userName: 'user 6',
+  attendence: 'absent',
+  Task: 'submitted',
+  date: 2020-10-27T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8ccf14bc17fdc2b31ea3c"),
+  userName: 'user 7',
+  attendence: 'absent',
+  Task: 'not submitted',
+  date: 2020-10-20T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8cd0d4bc17fdc2b31ea3e"),
+  userName: 'user 8',
+  attendence: 'present',
+  Task: 'submitted',
+  date: 2020-10-25T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8cd214bc17fdc2b31ea40"),
+  userName: 'user 9',
+  attendence: 'absent',
+  Task: 'not submitted',
+  date: 2020-10-29T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8cd364bc17fdc2b31ea42"),
+  userName: 'user 10',
+  attendence: 'absent',
+  Task: 'not submitted',
+  date: 2020-11-05T00:00:00.000Z
+}
+ANSWER:
+
+db.Attendance.find({attendence:{$eq:"absent"},Task:{$eq:"not submitted"},date:{"$gte":ISODate("2020-10-15T00:00:00.000Z"),"$lte":ISODate("2020-10-31T00:00:00.000+00:00")}});
+
+{
+  _id: ObjectId("64b8ccae4bc17fdc2b31ea36"),
+  userName: 'user 4',
+  attendence: 'absent',
+  Task: 'not submitted',
+  date: 2020-10-15T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8ccc24bc17fdc2b31ea38"),
+  userName: 'user 5',
+  attendence: 'absent',
+  Task: 'not submitted',
+  date: 2020-10-25T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8ccf14bc17fdc2b31ea3c"),
+  userName: 'user 7',
+  attendence: 'absent',
+  Task: 'not submitted',
+  date: 2020-10-20T00:00:00.000Z
+}
+{
+  _id: ObjectId("64b8cd214bc17fdc2b31ea40"),
+  userName: 'user 9',
+  attendence: 'absent',
+  Task: 'not submitted',
+  date: 2020-10-29T00:00:00.000Z
+}
