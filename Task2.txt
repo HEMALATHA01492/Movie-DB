@@ -913,10 +913,9 @@ db.Users.aggregate([{$group:{_id:"$mentor_id",totalmentees:{$sum:1}}},{$match:{"
   totalmentees: 2
 }
 {
-  _id: 2,
-  totalmentees: 2
+  _id: 4,
+  totalmentees: 3
 }
-
 
 
 6.Find the number of users who are absent and task is not submitted  between 15 oct-2020 and 31-oct-2020
